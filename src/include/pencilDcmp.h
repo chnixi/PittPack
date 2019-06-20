@@ -502,6 +502,61 @@ void clear( double *x );
  * \brief  This Class inherits Classs PencilDcmp methods and implements the fourier transforms using fftw3
  *
  */
+class CVelocity: public PencilDcmp
+{
+   private:
+//first order derivatives for convective terms and divergence
+   ChunkedArray GradX;
+   ChunkedArray GradY;
+   ChunkedArray GradZ;
+// second order derivatives for viscous stress term
+   ChunkedArray GradXX;
+   ChunkedArray GradYY;
+   ChunkedArray GradZZ;
+   ChunkedArray GradXY;
+   ChunkedArray GradYZ;
+   ChunkedArray GradXZ;
+
+   public:
+   void computeGradX();
+   void computeGradY();
+   void computeGradZ();
+   void computeGradXX();
+   void computeGradYY();
+   void computeGradZZ();
+   void computeGradXY();
+   void computeGradYZ();
+   void computeGradXZ();
+
+   ChunkedArray* GetValue();
+   ChunkedArray* getGradX();
+   ChunkedArray* getGradY();
+   ChunkedArray* getGradZ();
+   ChunkedArray* getGradXX();
+   ChunkedArray* getGradYY();
+   ChunkedArray* getGradZZ();
+   ChunkedArray* getGradXY();
+   ChunkedArray* getGradYZ();
+   ChunkedArray* getGradXZ();
+
+};
+
+class CMomentum
+{
+   private:
+   CVelocity U;
+   CVelocity V;
+   CVelocity W;
+   ChunkedArray Divergence;
+
+   public:
+   void computeViscousStress();
+   void computeDivergence();
+
+  
+   ChunkedArray* getDivergence();
+
+};
 
 class PoissonCPU : public PencilDcmp
 {
